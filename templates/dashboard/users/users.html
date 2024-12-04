@@ -1,0 +1,81 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block maintitle %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" enctype="multipart/form-data" 
+                  action="{% if user_id %}{% url 'users:user_edit' pk=user_id %}{% else %}{% url 'users:user_add' %}{% endif %}">
+                {% csrf_token %}
+                {% with messages=messages %}
+                    {% include 'alert.html' %}
+                {% endwith %}
+                <div class="card mb-4">
+                    <div class="card-header h5 py-3">User Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                    <label for="{{ form.username.id_for_label }}" class="form-label">Username:</label>
+                                    {{ form.username }}
+                                    {% include "parts/error.html" with errors=form.username.errors %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">Email Address:</label>
+                                    {{ form.email }}
+                                    {% include "parts/error.html" with errors=form.email.errors %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name:</label>
+                                    {{ form.first_name }}
+                                    {% include "parts/error.html" with errors=form.first_name.errors %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.middle_name.id_for_label }}" class="form-label">Middle Name:</label>
+                                    {{ form.middle_name }}
+                                    {% include "parts/error.html" with errors=form.middle_name.errors %}
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name:</label>
+                                    {{ form.last_name }}
+                                    {% include "parts/error.html" with errors=form.last_name.errors %}
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="col-md-12">
+                                    <label for="profile_image" class="form-label">Profile Image:</label>
+                                    {% include 'image-picker.html' with name=form.profile_image.name image=form.profile_image.value %}
+                                    {% include "parts/error.html" with errors=formprofile_image.errors %}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.role.id_for_label }}" class="form-label">Role:</label>
+                                {{ form.role }}
+                                {% include "parts/error.html" with errors=form.role.errors %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.mobile_number.id_for_label }}" class="form-label">Mobile Number:</label>
+                                {{ form.mobile_number }}
+                                {% include "parts/error.html" with errors=form.mobile_number.errors %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password.id_for_label }}" class="form-label">Password:</label>
+                                {{ form.password }}
+                                {% include "parts/error.html" with errors=form.password.errors %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex mb-5 ms-3">
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                    <a href="{% url 'users:user_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

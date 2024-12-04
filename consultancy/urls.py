@@ -25,9 +25,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('generic/', include("dashboard.generic_urls", namespace="generic")),
     path('',include('dashboard.urls'), name='dashboard'),
     path('',include('userauth.urls'), name='userauth'),
     path('',include('filehub.urls'), name='filehub'),
+    path('users/',include('users.urls'), name='users'),
+    path('students/',include('students.urls'), name='students'),
+    path('courses/',include('courses.urls'), name='courses'),
 ]
 
 

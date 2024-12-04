@@ -7,8 +7,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
 from .models import *
+from courses.models import *
+from students.models import *
+from userauth.models import *
 from django.db.models import Prefetch, Count
 from .forms import *
+
 
 class DashboardView(View):
     def get(self, request, *args, **kwargs):
@@ -56,17 +60,63 @@ class DeleteHelper:
             print(e)
             pass
         return objects, objects_org
+    def get_user(self, ids):
+        def user_email(obj):
+            return obj.email
 
-    # def get_menu(self, ids):
-    #     def menu_title(menu):
-    #         return menu.items_name
-    #     def menu_kwargs(menu):
-    #         return {"id": menu.id}
-    #     return self.get_objects(ids,MenuItem, "MenuItem", "menu:menuedit", menu_title, menu_kwargs)
+        def user_kwargs(obj):
+            return {'id': obj.id, 'username': obj.username}  
+
+        return self.get_objects(ids, User, "User", None, user_email, user_kwargs)
+    
+    def get_educational_history(self, ids):
+        def degree_name(obj):
+            return obj.degree_name
+
+        def degree_kwargs(obj):
+            return {
+                'institution_name': obj.institution_name,
+                'graduation_year': obj.graduation_year,
+                'major_subject': obj.major_subject,
+                'file': obj.file
+            }
+
+        return self.get_objects(ids, EducationHistory, "EducationHistory", None, degree_name, degree_kwargs)
+
+    def get_courses(self, ids):
+        def courses_name(obj):
+            return obj.course_name
+
+        def courses_kwargs(obj):
+            return {
+                'fee': obj.fee,
+            }
+
+        return self.get_objects(ids, Courses, "Courses", None, courses_name, courses_kwargs)
+
+    def get_student(self, ids):
+        def student_name(obj):
+            return obj.user.get_full_name()  
+
+        def student_kwargs(obj):
+            return {
+                'student_id': obj.student_id,
+                'date_of_admission': obj.date_of_admission,
+                'shift': obj.shift,
+            }
+
+        return self.get_objects(ids, Students, "Students", None, student_name, student_kwargs)
 
     def get_titles(self, post_type: str, total):
-        if post_type == "menu":
-            return "Menus" if total > 1 else "Menu"
+        if post_type == "user":
+            return "Users" if total > 1 else "User"
+        elif post_type == "educational_history":
+            return "EducationHistories" if total > 1 else "EducationHistory"
+        elif post_type == "course":
+            return "Courses" if total > 1 else "Course"
+        elif post_type == "student":
+            return "Students" if total > 1 else "Student"
+        
         return "Objects"
 
     def get_delete_objects(self, delete_type, selected_ids=None):
@@ -77,12 +127,14 @@ class DeleteHelper:
         originals = []
 
         if selected_ids:
-            if delete_type == "menu":
-                objects, originals = self.get_menu(selected_ids)
-            elif delete_type == "category":
-                objects, originals = self.get_category(selected_ids)
-            elif delete_type == "subcategory":
-                objects, originals = self.get_subcategory(selected_ids)
+            if delete_type == "student":
+                objects, originals = self.get_student(selected_ids)
+            elif delete_type == "educational_history":
+                objects, originals = self.get_educational_history(selected_ids)
+            elif delete_type == "course":
+                objects, originals = self.get_courses(selected_ids)
+            elif delete_type == "user":
+                objects, originals = self.get_user(selected_ids)
         return objects, originals
 
 
@@ -121,7 +173,7 @@ class DeleteView(View, DeleteHelper):
         #     raise Exception("No objects to delete")
 
         total_objects = len(objects)
-        return render(request, 'dashboard/parts/delete.html', context={
+        return render(request, 'dashboard/delete.html', context={
             "objects": objects,
             "type_title": self.get_titles(delete_type, total_objects),
             "back": back,

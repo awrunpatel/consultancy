@@ -1,0 +1,57 @@
+{% extends 'admin-base.html' %}
+{% block title %}
+    Users
+{% endblock %}
+{% block breadcrumb %}
+    Users
+{% endblock %}
+{% block maintitle %}
+    Users
+{% endblock %}
+
+{% block content %}
+    <style>
+        .dt-responsive {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .dt-responsive table th,
+        .dt-responsive table td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+
+    <div class="col-sm-12">
+        {% with messages=messages %}
+            {% include 'alert.html' %}
+        {% endwith %}
+        {% block rightbutton %}
+            <div class="d-flex justify-content-end mb-2">
+                <a href="{% url 'users:user_add' %}" class="btn btn-primary mt-3">Add New User</a>
+            </div>
+        {% endblock %}
+        <div class="card">
+            <div class="card-body">
+                <div class="student_lists_table">
+                    <div class="table-responsive">
+                        <table class="ajaxdatatable table table-bordered nowrap" data-ajax="{% url 'users:user_ajax' %}"
+                            data-nodata="No Data Found">
+                            <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Mobile Number</th>
+                                <th>Email Address</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

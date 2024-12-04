@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'dashboard',
     'userauth',
     'filehub',
+    'users',
+    'students',
+    'courses',
 ]
 
 MIDDLEWARE = [

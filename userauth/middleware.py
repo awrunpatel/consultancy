@@ -8,7 +8,7 @@ class AccessCheck:
     def __call__(self, request):
         if request.path_info.startswith('/admin'):
             if not request.user.is_authenticated:
-                return redirect('userauth:login')  # Adjust the login URL as necessary
+                return redirect('userauth:login')
             if not request.user.is_staff:
                 return redirect('website:index')
         

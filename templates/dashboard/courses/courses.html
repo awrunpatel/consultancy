@@ -1,0 +1,86 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block maintitle %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" enctype="multipart/form-data" 
+                action="{% if pk %}{% url 'courses:update_course' pk=pk %}{% else %}{% url 'courses:add_course' %}{% endif %}">
+                {% csrf_token %}
+                {% with messages=messages %}
+                    {% include 'alert.html' %}
+                {% endwith %}
+                <div class="card mb-4">
+                    <div class="card-header h5 py-3">Course Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Course Name -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.course_name.id_for_label }}" class="form-label">Course Name:</label>
+                                {{ form.course_name }}
+                                {% include "parts/error.html" with errors=form.course_name.errors %}
+                            </div>
+
+                            <!-- Course Fee -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.fee.id_for_label }}" class="form-label">Course Fee:</label>
+                                {{ form.fee }}
+                                {% include "parts/error.html" with errors=form.fee.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Description -->
+                            <div class="col-md-12 mb-3">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">Description:</label>
+                                {{ form.description }}
+                                {% include "parts/error.html" with errors=form.description.errors %}
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="course_image" class="form-label">Course Thumbnail image</label>
+                                {% include 'image-picker.html' with name=form.course_image.name image=form.course_image.value %}
+                                {% include "parts/error.html" with errors=form.course_image.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Duration -->
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.duration_in_weeks.id_for_label }}" class="form-label">Duration (in weeks):</label>
+                                {{ form.duration_in_weeks }}
+                                {% include "parts/error.html" with errors=form.duration_in_weeks.errors %}
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.start_date.id_for_label }}" class="form-label">Start Date:</label>
+                                {{ form.start_date }}
+                                {% include "parts/error.html" with errors=form.start_date.errors %}
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.end_date.id_for_label }}" class="form-label">End Date:</label>
+                                {{ form.end_date }}
+                                {% include "parts/error.html" with errors=form.end_date.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Is Active -->
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.is_active.id_for_label }}" class="form-label">Is Active?</label>
+                                {{ form.is_active }}
+                                {% include "parts/error.html" with errors=form.is_active.errors %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex mb-5 ms-3">
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                    <a href="{% url 'courses:course_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
