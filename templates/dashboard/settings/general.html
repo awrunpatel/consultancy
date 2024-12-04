@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-label" for="{{ form.website_name.id_for_label }}">Website Name</label>
+            {{ form.website_name }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label class="form-label" for="{{ form.website_location.id_for_label }}">Location</label>
+            {{ form.location }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_number.id_for_label }}">Contant Number</label>
+            {{ form.contact_number }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_email.id_for_label }}">Contant Email</label>
+            {{ form.contact_email }}
+        </div>
+    </div>
+    <div class="col-md-6 mt-3">
+        <div class="form-group">
+            <label class="form-label">Favicon</label>
+            {% with name="website_fav" image=form.website_fav.value %}
+                {% include 'image-picker.html' %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <div class="col-md-6 mt-3">
+        <div class="form-group">
+            <label class="form-label">Logo</label>
+            {% with name="website_logo" image=form.website_logo.value %}
+                {% include 'image-picker.html' %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
