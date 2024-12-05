@@ -1,4 +1,7 @@
 from django.db import models
+from userauth.models import *
+from django.contrib.humanize.templatetags import humanize
+from .data import COUNTRY_CHOICES
 
 # Create your models here.
 class SiteSettings(models.Model):
@@ -16,12 +19,15 @@ class SiteSettings(models.Model):
         return self.website_name
 
     
-class ContactMessage(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
+class Enquiry(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.TextField()
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    country = models.CharField(max_length=100, choices=COUNTRY_CHOICES, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f'Message from {self.name}'
-
+    def get_date(self):
+        return humanize.naturaltime(self.date)

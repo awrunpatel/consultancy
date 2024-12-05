@@ -1,3 +1,179 @@
 {% extends "admin-base.html" %}
 {% block title %}Dashboard{% endblock title %}
 {% block beadcrumb %}Dashboard{% endblock beadcrumb %}
+
+{% block content %}
+<div class="col-md-4">
+    <div class="card summary card-flush h-md-50 mb-5 mb-xl-10">
+        <div class="card-header">
+            <div class="card-title d-flex flex-column">   
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-2 final_value">{{students.total}}</span>
+                    
+                    {% if students.change > 0 %}
+                    <span class="badge bg-success">                                
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        {{students.change}}%
+                    </span>
+                    {% elif students.change == 0 %}
+                    <span class="badge bg-secondary">                                
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        {{students.change}}%
+                    </span>
+                    {% else %}
+                    <span class="badge bg-danger">                                
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        {{students.change}}%
+                    </span>
+                    {% endif %}
+                </div>
+    
+                <span class="text-start text-light">Total Students</span>
+            </div>
+        </div>
+
+        <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-center">
+            
+            <div class="d-flex flex-column content-justify-center flex-row-fluid w-100">
+                <div class="d-flex fw-semibold align-items-center justify-content-between w-100">
+                    <div class="d-flex fw-semibold align-items-center">
+                        <div class="bullet bg-success rounded-2 me-3"></div>
+                        <div class="flex-grow-1 me-4 text-light">New Students</div>
+                    </div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">{{students.new}}</div>
+                </div>
+    
+                <div class="d-flex fw-semibold align-items-center mt-2 justify-content-between w-100">
+                    <div class="d-flex fw-semibold align-items-center">
+                        <div class="bullet bg-secondary rounded-2 me-3"></div>
+                        <div class="flex-grow-1 me-4 text-light">Old Students</div>
+                    </div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">{{students.old}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="card summary card-flush h-md-50 mb-5 mb-xl-10">
+        <div class="card-header">
+            <div class="card-title d-flex flex-column">   
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-2 final_value">{{courses.total}}</span>
+                    
+                    {% if courses.change > 0 %}
+                    <span class="badge bg-success">                                
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        {{courses.change}}%
+                    </span>
+                    {% elif courses.change == 0 %}
+                    <span class="badge bg-secondary">                                
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        {{courses.change}}%
+                    </span>
+                    {% else %}
+                    <span class="badge bg-danger">                                
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        {{courses.change}}%
+                    </span>
+                    {% endif %}
+                </div>
+    
+                <span class="text-start text-light">Total Courses</span>
+            </div>
+        </div>
+
+        <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-center">
+            
+            <div class="d-flex flex-column content-justify-center flex-row-fluid w-100">
+                <div class="d-flex fw-semibold align-items-center justify-content-between w-100">
+                    <div class="d-flex fw-semibold align-items-center">
+                        <div class="bullet bg-success rounded-2 me-3"></div>
+                        <div class="flex-grow-1 me-4 text-light">New Courses</div>
+                    </div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">{{courses.new}}</div>
+                </div>
+    
+                <div class="d-flex fw-semibold align-items-center mt-2 justify-content-between w-100">
+                    <div class="d-flex fw-semibold align-items-center">
+                        <div class="bullet bg-secondary rounded-2 me-3"></div>
+                        <div class="flex-grow-1 me-4 text-light">Old Courses</div>
+                    </div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">{{courses.old}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="card summary card-flush h-md-50 mb-5 mb-xl-10">
+        <div class="card-header">
+            <div class="card-title d-flex flex-column">   
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-2 final_value">{{teachers.total}}</span>
+                    
+                    {% if teachers.change > 0 %}
+                    <span class="badge bg-success">                                
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                        {{teachers.change}}%
+                    </span>
+                    {% elif teachers.change == 0 %}
+                    <span class="badge bg-secondary">                                
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        {{teachers.change}}%
+                    </span>
+                    {% else %}
+                    <span class="badge bg-danger">                                
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                        {{teachers.change}}%
+                    </span>
+                    {% endif %}
+                </div>
+    
+                <span class="text-start text-light">Total Teachers</span>
+            </div>
+        </div>
+
+        <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-center">
+            
+            <div class="d-flex flex-column content-justify-center flex-row-fluid w-100">
+                <div class="d-flex fw-semibold align-items-center justify-content-between w-100">
+                    <div class="d-flex fw-semibold align-items-center">
+                        <div class="bullet bg-success rounded-2 me-3"></div>
+                        <div class="flex-grow-1 me-4 text-light">New Teachers</div>
+                    </div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">{{teachers.new}}</div>
+                </div>
+    
+                <div class="d-flex fw-semibold align-items-center mt-2 justify-content-between w-100">
+                    <div class="d-flex fw-semibold align-items-center">
+                        <div class="bullet bg-secondary rounded-2 me-3"></div>
+                        <div class="flex-grow-1 me-4 text-light">Old Teachers</div>
+                    </div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">{{teachers.old}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card summary card-flush h-md-50 mb-5 mb-xl-10">
+        <div class="card-header">
+            <div class="card-title border-0 d-flex flex-column">
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold me-2 final_value">{{ enquiries }}</span>
+                </div>
+
+                <span class="text-start text-light">Total Enquiries</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -12,12 +12,79 @@ from students.models import *
 from userauth.models import *
 from django.db.models import Prefetch, Count
 from .forms import *
+from datetime import timedelta, datetime
 
 
 class DashboardView(View):
+    def calculate_user_changes(self, role):
+        try:
+            one_week_ago = datetime.now() - timedelta(weeks=1)
+            new_users_count = User.objects.filter(date_joined__gte=one_week_ago, role=role).count()
+            old_users_count = User.objects.filter(date_joined__lt=one_week_ago, role=role).count()
+            total_users_count = new_users_count + old_users_count
+
+            if total_users_count == 0:
+                change_in_users_percent = 0
+            else:
+                change_in_users_percent = ((new_users_count - old_users_count) / total_users_count) * 100
+            change_in_users_percent = round(change_in_users_percent, 1)
+
+            user_changes = {
+                "total": total_users_count,
+                "new": new_users_count,
+                "old": old_users_count,
+                "change": change_in_users_percent
+            }
+            return user_changes
+        except Exception:
+            return {
+                "total": 0,
+                "new": 0,
+                "old": 0,
+                "change": 0
+            }
+
+    def calculate_courses_changes(self):
+        try:
+            one_week_ago = datetime.now() - timedelta(weeks=1)
+            new_courses_count = Courses.objects.filter(start_date__gte=one_week_ago).count()
+            old_courses_count = Courses.objects.filter(start_date__lt=one_week_ago).count()
+
+            total_courses_count = new_courses_count + old_courses_count
+
+            if total_courses_count == 0:
+                change_in_courses_percent = 0
+            else:
+                change_in_courses_percent = ((new_courses_count - old_courses_count) / total_courses_count) * 100
+            change_in_courses_percent = round(change_in_courses_percent, 1)
+
+            user_changes = {
+                "total": total_courses_count,
+                "new": new_courses_count,
+                "old": old_courses_count,
+                "change": change_in_courses_percent
+            }
+            return user_changes
+        except Exception:
+            return {
+                "total": 0,
+                "new": 0,
+                "old": 0,
+                "change": 0
+            }
+
     def get(self, request, *args, **kwargs):
-        return render(request, 'dashboard/index.html')
-    
+        students = self.calculate_user_changes("student")
+        # teachers = self.calculate_user_changes("teacher")
+        courses = self.calculate_courses_changes()
+        enquiries = Enquiry.objects.count()
+        return render(request, 'dashboard/index.html', context={
+            "students": students,
+            # "teachers": teachers,
+            "courses": courses,
+            "enquiries": enquiries
+        })
+
 class FileManagerView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'dashboard/filemanager.html')
