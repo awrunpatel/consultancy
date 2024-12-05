@@ -105,7 +105,7 @@ class CourseAjax(View):
         )
 
     def get_action(self, course_id):
-        request = self.request  # Assuming `self.request` is available in your view.
+        request = self.request  
         csrf_token = get_token(request)
 
         edit_url = reverse('courses:update_course', kwargs={'pk': course_id})

@@ -10,9 +10,14 @@ from .models import *
 from courses.models import *
 from students.models import *
 from userauth.models import *
+from events.models import *
+from blogs.models import *
 from django.db.models import Prefetch, Count
 from .forms import *
 from datetime import timedelta, datetime
+from django.http import JsonResponse
+from django.db.models import Q
+from django.middleware.csrf import get_token
 
 
 class DashboardView(View):
@@ -85,6 +90,63 @@ class DashboardView(View):
             "enquiries": enquiries
         })
 
+class EnquiryView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'dashboard/enquiry/list.html')
+
+
+class EnquiryAjaxView(View):
+    def get_action(self, post: Enquiry):
+        request = self.request  
+        csrf_token = get_token(request)
+        delete_url = reverse('generic:delete')
+        backurl = reverse('dashboard:enquiry')
+        return f'''
+            <form method="post" action="{delete_url}" class="button-group">
+                <button type="button" class="btn btn-warning btn-sm viewEnquiry">View</button>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{csrf_token}">
+                <textarea class="d-none">{post.message}</textarea>
+                <input class="d-none phone_number" value="{post.phone_number}" />
+                <input class="d-none country" value="{post.get_country_display()}" />
+
+                <input type="hidden" name="_selected_id" value="{post.id}" />
+                <input type="hidden" name="_selected_type" value="enquiry" />
+                <input type="hidden" name="_back_url" value="{backurl}" />
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        '''
+
+    def get(self, request, *args, **kwargs):
+        draw = int(request.GET.get('draw', 1))
+        start = int(request.GET.get('start', 0))
+        length = int(request.GET.get('length', 10))
+        search_value = request.GET.get('search[value]', None)
+        page_number = (start // length) + 1
+
+        posts = Enquiry.objects.filter()
+        if search_value:
+            posts = posts.filter(Q(email__icontains=search_value) | Q(name__icontains=search_value))
+        posts = posts.order_by('-id')
+
+        paginator = Paginator(posts, length)
+        page_posts = paginator.page(page_number)
+        data = []
+        for post in page_posts:
+            data.append([
+                post.subject,
+                post.name,
+                post.email,
+                post.get_date(),
+                self.get_action(post)
+            ])
+
+        return JsonResponse({
+            "draw": draw,
+            "recordsTotal": paginator.count,
+            "recordsFiltered": paginator.count,
+            "data": data
+        }, status=200)
+    
 class FileManagerView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'dashboard/filemanager.html')
@@ -173,7 +235,42 @@ class DeleteHelper:
             }
 
         return self.get_objects(ids, Students, "Students", None, student_name, student_kwargs)
+    
+    def get_enquiry(self, ids):
+        def enquiry_subject(obj):
+            return obj.subject
 
+        def enquiry_kwargs(obj):
+            return {
+                'phone_number': obj.phone_number,
+                'country': obj.get_country_display(),
+                'message': obj.message
+            }
+        return self.get_objects(ids, Enquiry, "Enquiry", None, enquiry_subject, enquiry_kwargs)
+    
+    def get_events (self, ids):
+        def events_title(obj):
+            return obj.title
+
+        def events_kwargs(obj):
+            return {
+                'event_type': obj.event_type,
+                'title': obj.title,
+            }
+        return self.get_objects(ids, Event, "Event", None, events_title, events_kwargs)
+    
+    def get_blogs(self, ids):
+        def blogs_title(obj):
+            return obj.title
+
+        def blogs_kwargs(obj):
+            return {
+                'date': obj.date,            
+                'author': obj.author,        
+                'content': obj.content     
+            }
+        return self.get_objects(ids, Blog, "Blog", None, blogs_title, blogs_kwargs)
+    
     def get_titles(self, post_type: str, total):
         if post_type == "user":
             return "Users" if total > 1 else "User"
@@ -183,6 +280,12 @@ class DeleteHelper:
             return "Courses" if total > 1 else "Course"
         elif post_type == "student":
             return "Students" if total > 1 else "Student"
+        elif post_type == "enquiry":
+            return "Enquiries" if total > 1 else "Enquiry"
+        elif post_type == "event":
+            return "Events" if total > 1 else "Event"
+        elif post_type == "blog":
+            return "Blogs" if total > 1 else "Blog"
         
         return "Objects"
 
@@ -202,6 +305,13 @@ class DeleteHelper:
                 objects, originals = self.get_courses(selected_ids)
             elif delete_type == "user":
                 objects, originals = self.get_user(selected_ids)
+            elif delete_type == "enquiry":
+                objects, originals = self.get_enquiry(selected_ids)
+            elif delete_type == "event":
+                objects, originals = self.get_events(selected_ids)
+            elif delete_type == "blog":
+                objects, originals = self.get_blogs(selected_ids)
+        
         return objects, originals
 
 

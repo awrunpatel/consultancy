@@ -1,0 +1,56 @@
+{% extends 'admin-base.html' %}
+{% block title %}
+    Blogs
+{% endblock %}
+{% block breadcrumb %}
+    Blogs
+{% endblock %}
+{% block maintitle %}
+    Blogs
+{% endblock %}
+
+{% block content %}
+    <style>
+        .dt-responsive {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .dt-responsive table th,
+        .dt-responsive table td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+
+    <div class="col-sm-12">
+        {% with messages=messages %}
+            {% include 'alert.html' %}
+        {% endwith %}
+        {% block rightbutton %}
+            <div class="d-flex justify-content-end mb-2">
+                <a href="{% url 'blogs:blog_create' %}" class="btn btn-primary mt-3">Add New Blog</a>
+            </div>
+        {% endblock %}
+        <div class="card">
+            <div class="card-body">
+                <div class="blog_lists_table">
+                    <div class="table-responsive">
+                        <table class="ajaxdatatable table table-bordered nowrap" data-ajax="{% url 'blogs:blog_ajax' %}"
+                            data-nodata="No Data Found">
+                            <thead>
+                                <tr>
+                                    <th>Blog Title</th>
+                                    <th>Author</th>
+                                    <th>Published Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "admin-base.html" %}
+{% block title %}Enquiry{% endblock title %}
+{% block beadcrumb %}Enquiry{% endblock beadcrumb %}
+{% block maintitle %}Enquiry{% endblock maintitle %}
+
+{% block content %}
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-body">
+            {% with messages=messages %}
+            {% include 'alert.html' %}
+            {% endwith %}
+
+            <div class="dt-responsive">
+                <table class="ajaxdatatable table table-bordered nowrap" data-ajax="{% url 'dashboard:enquiryajax' %}"
+                    data-nodata="No Enquiry Found">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="enquiryViewModal" tabindex="-1" aria-labelledby="enquiryViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="enquiryViewModalLabel">Enquiry</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 px-4">
+                <table class="table">
+                    <tr>
+                        <th>Name:</th>
+                        <td class="name"></td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td class="email"></td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number:</th>
+                        <td class="phone_number"></td>
+                    </tr>
+                    <tr>
+                        <th>Country:</th>
+                        <td class="country"></td>
+                    </tr>
+                    <tr>
+                        <th>Subject:</th>
+                        <td class="subject"></td>
+                    </tr>
+                    <tr>
+                        <th>Message:</th>
+                        <td class="message"></td>
+                    </tr>
+                    <tr>
+                        <th>Time:</th>
+                        <td class="date"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

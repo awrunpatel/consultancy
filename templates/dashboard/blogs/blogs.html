@@ -1,0 +1,82 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block maintitle %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" enctype="multipart/form-data"
+                action="{% if pk %}{% url 'blogs:blog_update' pk=pk %}{% else %}{% url 'blogs:blog_create' %}{% endif %}">
+                {% csrf_token %}
+                {% with messages=messages %}
+                    {% include 'alert.html' %}
+                {% endwith %}
+                <div class="card mb-4">
+                    <div class="card-header h5 py-3">Blog Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Blog Title -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.title.id_for_label }}" class="form-label">Blog Title:</label>
+                                {{ form.title }}
+                                {% include "parts/error.html" with errors=form.title.errors %}
+                            </div>
+
+                            <!-- Blog Slug -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.slug.id_for_label }}" class="form-label">Blog Slug:</label>
+                                {{ form.slug }}
+                                {% include "parts/error.html" with errors=form.slug.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Blog Author -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.author.id_for_label }}" class="form-label">Author:</label>
+                                {{ form.author }}
+                                {% include "parts/error.html" with errors=form.author.errors %}
+                            </div>
+
+                            <!-- Blog Status -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.status.id_for_label }}" class="form-label">Status:</label>
+                                {{ form.status }}
+                                {% include "parts/error.html" with errors=form.status.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Blog Content -->
+                            <div class="col-md-12 mb-3">
+                                <label for="{{ form.content.id_for_label }}" class="form-label">Content:</label>
+                                {{ form.content }}
+                                {% include "parts/error.html" with errors=form.content.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Blog Image -->
+                            <div class="col-md-12 mb-3">
+                                <label for="image" class="form-label">Blog Image</label>
+                                {% include 'image-picker.html' with name=form.image.name image=form.image.value %}
+                                {% include "parts/error.html" with errors=form.image.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Published Date -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.published_date.id_for_label }}" class="form-label">Published Date:</label>
+                                {{ form.published_date }}
+                                {% include "parts/error.html" with errors=form.published_date.errors %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex mb-5 ms-3">
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                    <a href="{% url 'blogs:blog_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
