@@ -16,7 +16,7 @@ class CourseForm(forms.ModelForm):
         ]
         widgets = {
             'course_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Course Name'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Course Description'}),
+            'description': forms.Textarea(attrs={'class': 'form-control tinymce', 'placeholder': 'Course Description'}),
             'course_image': forms.TextInput(
                 attrs={'class': 'form-control', 'id': 'course_image', 'placeholder': 'Course Image'}),
             'duration_in_weeks': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Duration in weeks'}),

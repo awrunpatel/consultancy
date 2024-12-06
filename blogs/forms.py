@@ -11,7 +11,7 @@ class BlogForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter blog title'}),
             'slug': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter blog slug'}),
             'author': forms.Select(attrs={'class': 'form-select'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter blog content', 'rows': 10}),
+            'content': forms.Textarea(attrs={'class': 'form-control tinymce', 'placeholder': 'Enter blog content', 'rows': 10}),
             'image': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Enter image URL'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
             'published_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
