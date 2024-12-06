@@ -50,8 +50,13 @@
                                 {% endif %}
                             </div>
                             <div class="flex-grow-1 ms-3 me-2">
-                                <h6 class="mb-0">{{request.user.get_full_name}}</h6>
-                                <small>{{request.user.role.capitalize}}</small>
+                                {% if request.user.is_authenticated %}
+                                    <h6 class="mb-0">{{ request.user.get_full_name }}</h6>
+                                    <small>{{ request.user.role|capfirst }}</small>
+                                {% else %}
+                                    <h6 class="mb-0">Anonymous User</h6>
+                                    <small>Guest</small>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -236,9 +241,14 @@
                                                     class="user-avatar wid-45 rounded-circle" />
                                             {% endif %}
                                         </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-1">{{request.user.get_full_name}}</h6>
-                                            <span>{{request.user.email.capitalize}}</span>
+                                        <div class="flex-grow-1 ms-3 me-2">
+                                            {% if request.user.is_authenticated %}
+                                                <h6 class="mb-0">{{ request.user.get_full_name }}</h6>
+                                                <small>{{ request.user.role|capfirst }}</small>
+                                            {% else %}
+                                                <h6 class="mb-0">Anonymous User</h6>
+                                                <small>Guest</small>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <hr class="border-secondary border-opacity-50" />
