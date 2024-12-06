@@ -10,7 +10,7 @@ class Event(models.Model):
     ]
 
     title = models.CharField(max_length=255, help_text="Title of the event")
-    description = models.TextField(help_text="Detailed description of the event")
+    description = models.TextField(blank =True, null =True)
     event_image = models.TextField(blank=True, null=True, help_text="Image or banner for the event")
     event_type = models.CharField(max_length=50, choices=EVENT_TYPES, help_text="Type of event")
     start_date = models.DateField(help_text="Start date of the event")

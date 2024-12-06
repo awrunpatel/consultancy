@@ -11,7 +11,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blogs')
-    content = models.TextField()
+    content = models.TextField(blank =True, null =True)
     image = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     published_date = models.DateTimeField(blank=True, null=True)

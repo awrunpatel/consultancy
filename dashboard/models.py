@@ -24,7 +24,7 @@ class Enquiry(models.Model):
     subject = models.TextField()
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    message = models.TextField()
+    message = models.TextField(blank =True, null =True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     country = models.CharField(max_length=100, choices=COUNTRY_CHOICES, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)

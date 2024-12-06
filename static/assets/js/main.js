@@ -78,35 +78,25 @@
     });
 
 
-    /**
-     *  Tinymce editor configuration settings
-     */
     const tinymceSelector = $(document).find(".tinymce");
     if (tinymceSelector.length > 0) {
         tinymce.init({
             selector: '.tinymce',
             promotion: false,
+            license_key: 'gpl', // Agree to GPL terms
             menubar: true,
             plugins: "codesample link media image code fullscreen table autolink advlist lists autoresize emoticons wordcount",
             toolbar: [
                 'bold italic underline strikethrough | subscript superscript | list bullist numlist blockquote alignleft aligncenter alignright alignjustify autolink link table',
-                'formatselect autolink forecolor |  subscript superscript | outdent indent | image media emoticons | wordcount codesample fullscreen code'
+                'formatselect autolink forecolor | subscript superscript | outdent indent | image media emoticons | wordcount codesample fullscreen code'
             ],
             image_advtab: false,
-
-            // external_filemanager_path: allsmarttools.adminurl + "assets/modules/filemanager/filemanager/",
-            // filemanager_title: "Filemanager",
-            // external_plugins: { "filemanager": allsmarttools.adminurl + "assets/modules/tinymce/plugins/responsivefilemanager/plugin.js?v=1.0.4" },
             relative_urls: false,
             remove_script_host: true,
-            // document_base_url: allsmarttools.siteurl,
             toolbar_sticky: true,
             image_dimensions: false,
             image_class_list: [
-                {
-                    title: 'Responsive',
-                    value: 'img-responsive'
-                }
+                { title: 'Responsive', value: 'img-responsive' }
             ],
             table_class_list: [
                 { title: 'Table Bordered', value: 'table table-bordered' },

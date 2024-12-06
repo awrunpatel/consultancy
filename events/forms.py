@@ -23,7 +23,7 @@ class EventForm(forms.ModelForm):
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter event title'}),
-            'description': forms.Textarea(attrs={'class': 'form-control tinymce', 'placeholder': 'Enter event description', 'rows': 5}),
+            'description': forms.Textarea(attrs={'class': 'form-control tinymce'}),
             'event_image': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Enter event image URL'}),  # URLInput instead of TextInput for image upload
             'event_type': forms.Select(attrs={'class': 'form-select'}),
             'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
