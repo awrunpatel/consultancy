@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'courses',
     'events',
     'blogs',
+    'university',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,51 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block maintitle %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" enctype="multipart/form-data" 
+                action="{% if pk %}{% url 'universities:update_intake' pk=pk %}{% else %}{% url 'universities:create_intake' %}{% endif %}">
+                {% csrf_token %}
+                {% with messages=messages %}
+                    {% include 'alert.html' %}
+                {% endwith %}
+                <div class="card mb-4">
+                    <div class="card-header h5 py-3">Intake Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Course -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.course.id_for_label }}" class="form-label">Course:</label>
+                                {{ form.course }}
+                                {% include "parts/error.html" with errors=form.course.errors %}
+                            </div>
+
+                            <!-- Intake Month -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.intake_month.id_for_label }}" class="form-label">Intake Month:</label>
+                                {{ form.intake_month }}
+                                {% include "parts/error.html" with errors=form.intake_month.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Application Deadline -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.application_deadline.id_for_label }}" class="form-label">Application Deadline:</label>
+                                {{ form.application_deadline }}
+                                {% include "parts/error.html" with errors=form.application_deadline.errors %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex mb-5 ms-3">
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                    <a href="{% url 'universities:intake_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

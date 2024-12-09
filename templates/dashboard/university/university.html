@@ -1,0 +1,74 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block maintitle %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" enctype="multipart/form-data" 
+                action="{% if pk %}{% url 'universities:update_university' pk=pk %}{% else %}{% url 'universities:create_university' %}{% endif %}">
+                {% csrf_token %}
+                {% with messages=messages %}
+                    {% include 'alert.html' %}
+                {% endwith %}
+                <div class="card mb-4">
+                    <div class="card-header h5 py-3">University Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- University Name -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">University Name:</label>
+                                {{ form.name }}
+                                {% include "parts/error.html" with errors=form.name.errors %}
+                            </div>
+
+                            <!-- Country -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.country.id_for_label }}" class="form-label">Country:</label>
+                                {{ form.country }}
+                                {% include "parts/error.html" with errors=form.country.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- City -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.city.id_for_label }}" class="form-label">City:</label>
+                                {{ form.city }}
+                                {% include "parts/error.html" with errors=form.city.errors %}
+                            </div>
+
+                            <!-- Website -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.website.id_for_label }}" class="form-label">Website:</label>
+                                {{ form.website }}
+                                {% include "parts/error.html" with errors=form.website.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Description -->
+                            <div class="col-md-12 mb-3">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">Description:</label>
+                                {{ form.description }}
+                                {% include "parts/error.html" with errors=form.description.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Logo -->
+                            <div class="col-md-12 mb-3">
+                                <label for="logo" class="form-label">University Logo:</label>
+                                {% include 'image-picker.html' with name=form.logo.name image=form.logo.value %}
+                                {% include "parts/error.html" with errors=form.logo.errors %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex mb-5 ms-3">
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                    <a href="{% url 'universities:university_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

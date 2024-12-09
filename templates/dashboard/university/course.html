@@ -1,0 +1,73 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block maintitle %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <form method="post" enctype="multipart/form-data" 
+                action="{% if pk %}{% url 'universities:update_university_course' pk=pk %}{% else %}{% url 'universities:create_university_course' %}{% endif %}">
+                {% csrf_token %}
+                {% with messages=messages %}
+                    {% include 'alert.html' %}
+                {% endwith %}
+                <div class="card mb-4">
+                    <div class="card-header h5 py-3">Course Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Course Name -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">Course Name:</label>
+                                {{ form.name }}
+                                {% include "parts/error.html" with errors=form.name.errors %}
+                            </div>
+
+                            <!-- University -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.university.id_for_label }}" class="form-label">University:</label>
+                                {{ form.university }}
+                                {% include "parts/error.html" with errors=form.university.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Level -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.level.id_for_label }}" class="form-label">Level:</label>
+                                {{ form.level }}
+                                {% include "parts/error.html" with errors=form.level.errors %}
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.duration_years.id_for_label }}" class="form-label">Duration in Years:</label>
+                                {{ form.duration_years }}
+                                {% include "parts/error.html" with errors=form.duration_years.errors %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Tuition Fee -->
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.tuition_fee.id_for_label }}" class="form-label">Tuition Fee:</label>
+                                {{ form.tuition_fee }}
+                                {% include "parts/error.html" with errors=form.tuition_fee.errors %}
+                            </div>
+
+                            <!-- Course Description -->
+                            <div class="col-md-12 mb-3">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">Course Description:</label>
+                                {{ form.description }}
+                                {% include "parts/error.html" with errors=form.description.errors %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex mb-5 ms-3">
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
+                    <a href="{% url 'universities:university_course_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

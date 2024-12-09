@@ -1,4 +1,6 @@
 from django.db import models
+from dashboard.data import COUNTRY_CHOICES
+
 
 # Create your models here.
 class Courses(models.Model):

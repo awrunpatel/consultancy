@@ -1,0 +1,61 @@
+{% extends 'admin-base.html' %}
+
+{% block title %}
+    University Courses
+{% endblock %}
+
+{% block breadcrumb %}
+    University Courses
+{% endblock %}
+
+{% block maintitle %}
+    University Courses
+{% endblock %}
+
+{% block content %}
+    <style>
+        .dt-responsive {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .dt-responsive table th,
+        .dt-responsive table td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+
+    <div class="col-sm-12">
+        {% with messages=messages %}
+            {% include 'alert.html' %}
+        {% endwith %}
+        {% block rightbutton %}
+            <div class="d-flex justify-content-end mb-2">
+                <a href="{% url 'universities:create_university_course' %}" class="btn btn-primary mt-3">Add New Course</a>
+            </div>
+        {% endblock %}
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="university_course_lists_table">
+                    <div class="table-responsive">
+                        <table class="ajaxdatatable table table-bordered nowrap" data-ajax="{% url 'universities:university_course_ajax' %}"
+                            data-nodata="No Data Found">
+                            <thead>
+                                <tr>
+                                    <th>Course Name</th>
+                                    <th>University</th>
+                                    <th>Level</th>
+                                    <th>Duration (Years)</th>
+                                    <th>Tuition Fee</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
